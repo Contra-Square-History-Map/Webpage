@@ -1,0 +1,38 @@
+name: contra_square_catalog
+description: The webpage for the Contra-Square map and timeline
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  collection: ^1.17.0
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  fixnum: ^1.0.1
+  fl_chart: ^0.64.0
+  flutter_riverpod: ^2.4.4
+  google_maps_flutter: ^2.5.0
+  http: ^1.1.0
+  just_audio: ^0.9.35
+  pointer_interceptor: ^0.9.3+6
+  protobuf: ^3.1.0
+  shared_preferences: ^2.2.2
+  url_launcher: ^6.1.14
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  protoc_plugin: ^21.1.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/map_markers/red/
+    - assets/map_markers/blue/

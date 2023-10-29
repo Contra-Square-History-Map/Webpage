@@ -54,9 +54,8 @@ final releasesProvider = FutureProvider<List<Recording>>(
 final filteredReleasesProvider = FutureProvider<List<Recording>>((ref) {
   final searchWindow = ref.watch(releaseRangeProvider);
   final requiredInstruments = ref.watch(selectedInstrumentsProvider);
-  final requiredMusicians = ref.watch(selectedInstrumentsProvider);
 
-  final List<Recording> allReleases = ref.watch(releasesProvider).when(
+  final List<Recording> filteredReleases = ref.watch(releasesProvider).when(
         data: (data) {
           return data
               .where(
@@ -74,13 +73,6 @@ final filteredReleasesProvider = FutureProvider<List<Recording>>((ref) {
                       .any((contribution) => contribution.instrument == inst),
                 ),
               )
-              .where(
-                (release) => requiredMusicians.every(
-                  (musician) => release.contributions.any((contribution) =>
-                      "${contribution.musician.firstName} ${contribution.musician.lastName}" ==
-                      musician),
-                ),
-              )
               .where((release) =>
                   release.latitude.isFinite && release.longitude.isFinite)
               .toList(growable: false);
@@ -89,5 +81,9 @@ final filteredReleasesProvider = FutureProvider<List<Recording>>((ref) {
         loading: () => [],
         skipLoadingOnRefresh: false,
       );
-  return allReleases;
+  if (kDebugMode) {
+    print("Filtered ${filteredReleases.length} releases");
+  }
+
+  return filteredReleases;
 });

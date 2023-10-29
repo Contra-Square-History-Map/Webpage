@@ -8,10 +8,10 @@ import 'package:http/http.dart' as http;
 
 import '../routes.dart';
 
-final releaseProvider = FutureProvider.family<Recording, Int64>(
+final releaseProvider = FutureProvider.family<Recording, String>(
   (ref, id) {
     if (true) {
-      var url = Uri.http(host, debugApi + release, {"id": id.toString()});
+      var url = Uri.http(host, debugApi + release, {"id": id});
       var response = http.read(url, headers: {
         "Referrer-Policy": "no-referrer",
         "Content-Type": "application/json"

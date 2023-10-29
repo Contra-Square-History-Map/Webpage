@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:contra_square_catalog/widgets/select_release_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

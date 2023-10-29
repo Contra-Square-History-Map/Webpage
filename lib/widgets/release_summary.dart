@@ -14,7 +14,7 @@ import '../providers/selected_release_provider.dart';
 class ReleaseSummary extends ConsumerWidget {
   const ReleaseSummary({super.key, required this.id});
 
-  final Int64 id;
+  final String id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

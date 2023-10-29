@@ -91,24 +91,3 @@ final filteredReleasesProvider = FutureProvider<List<Recording>>((ref) {
       );
   return allReleases;
 });
-
-final releasesTextProvider = Provider<Set<String>>(
-  (ref) {
-    return ref.watch(releasesProvider).when(
-          data: (data) {
-            final Set<String> text = {};
-
-            for (var element in data) {
-              text.add(element.title);
-              text.add(element.band);
-              text.add(element.location);
-            }
-
-            return text;
-          },
-          error: (error, details) => {},
-          loading: () => {},
-          skipLoadingOnRefresh: false,
-        );
-  },
-);

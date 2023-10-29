@@ -24,8 +24,6 @@ class FilterMenu extends ConsumerWidget {
 
     final selectedInstruments = ref.watch(selectedInstrumentsProvider);
 
-    final Iterable<String> releasesText = ref.watch(releasesTextProvider);
-
     final minTextController =
         TextEditingController(text: currentSelection.start.round().toString());
 
@@ -74,7 +72,6 @@ class FilterMenu extends ConsumerWidget {
                 hintText: "Search",
                 icon: Icon(Icons.search),
               ),
-              autofillHints: releasesText,
               onChanged: (newText) {
                 ref.read(releaseSearchTextProvider.notifier).state = newText;
                 ref

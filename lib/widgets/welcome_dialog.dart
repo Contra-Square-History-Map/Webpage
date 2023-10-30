@@ -11,7 +11,7 @@ class WelcomeDialog extends StatefulWidget {
 }
 
 class _WelcomeDialogState extends State<WelcomeDialog> {
-  bool showWelcomeDialog = false;
+  bool showWelcomeDialog = true;
 
   @override
   void initState() {
@@ -20,8 +20,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
     SharedPreferences.getInstance().then(
       (sharedPrefs) {
         setState(() {
-          showWelcomeDialog =
-              sharedPrefs.getBool(showWelcomeDialogKey) ?? false;
+          showWelcomeDialog = sharedPrefs.getBool(showWelcomeDialogKey) ?? true;
         });
       },
     );

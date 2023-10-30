@@ -1,16 +1,17 @@
+import 'package:contra_square_catalog/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeDialog extends StatefulWidget {
-  const WelcomeDialog({Key? key}) : super(key: key);
+  const WelcomeDialog({super.key});
 
   @override
   State<WelcomeDialog> createState() => _WelcomeDialogState();
 }
 
 class _WelcomeDialogState extends State<WelcomeDialog> {
-  bool checkBoxState = false;
+  bool showWelcomeDialog = false;
 
   @override
   void initState() {
@@ -19,7 +20,8 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
     SharedPreferences.getInstance().then(
       (sharedPrefs) {
         setState(() {
-          checkBoxState = sharedPrefs.getBool("showWelcomeDialog") ?? false;
+          showWelcomeDialog =
+              sharedPrefs.getBool(showWelcomeDialogKey) ?? false;
         });
       },
     );
@@ -152,18 +154,18 @@ The “recording” criterion was included for two reasons:
               mainAxisSize: MainAxisSize.min,
               children: [
                 Checkbox(
-                  value: checkBoxState,
+                  value: !showWelcomeDialog,
                   onChanged: (value) {
-                    SharedPreferences.getInstance()
-                        .then(
-                      (sharedPrefs) => sharedPrefs.setBool(
-                          "showWelcomeDialog", !checkBoxState),
-                    )
-                        .then((_) {
-                      setState(() {
-                        checkBoxState = value ?? false;
+                    if (value != null) {
+                      SharedPreferences.getInstance()
+                          .then((sharedPrefs) =>
+                              sharedPrefs.setBool(showWelcomeDialogKey, !value))
+                          .then((_) {
+                        setState(() {
+                          showWelcomeDialog = !value;
+                        });
                       });
-                    });
+                    }
                   },
                 ),
                 const Text("Don't show this again"),

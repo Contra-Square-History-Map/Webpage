@@ -1,17 +1,18 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:contra_square_catalog/providers/selected_release_provider.dart';
-import 'package:contra_square_catalog/widgets/filter_menu.dart';
-import 'package:contra_square_catalog/widgets/release_summary.dart';
-import 'package:contra_square_catalog/widgets/releases_map.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../widgets/releases_timeline.dart';
+import 'constants.dart';
+import 'providers/selected_release_provider.dart';
+import 'widgets/filter_menu.dart';
+import 'widgets/release_summary.dart';
+import 'widgets/releases_map.dart';
+import 'widgets/releases_timeline.dart';
 import 'widgets/welcome_dialog.dart';
 
 void main() {
@@ -62,7 +63,7 @@ class _MainPageState extends ConsumerState<MainPage> {
         final sharedPrefs = SharedPreferences.getInstance();
 
         sharedPrefs.then((sharedPrefs) {
-          final showWelcome = sharedPrefs.getBool("showWelcomeDialog") ?? true;
+          final showWelcome = sharedPrefs.getBool(showWelcomeDialogKey) ?? true;
 
           if (showWelcome) {
             showDialog(

@@ -16,11 +16,11 @@ import 'widgets/welcome_dialog.dart';
 
 void main() {
   usePathUrlStrategy();
-  runApp(const MyApp());
+  runApp(const AHandForTheBand());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AHandForTheBand extends StatelessWidget {
+  const AHandForTheBand({super.key});
 
   // This widget is the root of your application.
   @override
@@ -50,7 +50,7 @@ class MainPage extends ConsumerStatefulWidget {
   const MainPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MainPageState();
+  ConsumerState<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends ConsumerState<MainPage> {

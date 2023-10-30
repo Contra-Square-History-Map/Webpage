@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:contra_square_catalog/proto/recording_messages.pb.dart';
 import 'package:contra_square_catalog/providers/release_provider.dart';
 import 'package:contra_square_catalog/routes.dart';
 import 'package:contra_square_catalog/widgets/comment.dart';
 import 'package:contra_square_catalog/widgets/track_player.dart';
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,7 +30,8 @@ class ReleaseSummary extends ConsumerWidget {
                 width: 400,
                 height: 50,
                 child: TrackPlayer(
-                  trackSource: Uri.http(host, audio + sample.url).toString(),
+                  trackSource:
+                      Uri.https(assetsHost, audio + sample.url).toString(),
                 ),
               ),
             ],
@@ -48,7 +46,7 @@ class ReleaseSummary extends ConsumerWidget {
           );
     final image = releaseDetails?.images.first;
     final imageWidget = (image != null)
-        ? Image.network(Uri.http(host, images + image).toString())
+        ? Image.network(Uri.https(assetsHost, images + image).toString())
         : SizedBox(
             width: 400,
             height: 50,

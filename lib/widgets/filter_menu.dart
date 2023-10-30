@@ -1,11 +1,11 @@
 import 'package:contra_square_catalog/constants.dart';
 import 'package:contra_square_catalog/providers/instruments_provider.dart';
-import 'package:contra_square_catalog/providers/musicians_provider.dart';
-import 'package:contra_square_catalog/providers/releases_provider.dart';
 import 'package:contra_square_catalog/providers/selected_release_provider.dart';
+import 'package:contra_square_catalog/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../providers/filter_providers.dart';
 import 'welcome_dialog.dart';
@@ -195,6 +195,17 @@ class FilterMenu extends ConsumerWidget {
                 );
               },
               child: const Text("Show Welcome"),
+            ),
+            const SizedBox(
+              height: sectionSpacing,
+            ),
+            FilledButton.tonalIcon(
+              onPressed: () {
+                final githubUri = Uri.parse(github);
+                launchUrl(githubUri);
+              },
+              icon: const ImageIcon(AssetImage("github-mark.png")),
+              label: const Text("Source Code"),
             ),
             const SizedBox(
               height: sectionSpacing,

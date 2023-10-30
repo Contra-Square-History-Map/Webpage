@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 // const host = "dancemap.hopto.org:8080";
 const host = "localhost:8080";
 
+const github = "https://github.com/Contra-Square-History-Map/Webpage";
+
 const api = "/api/proto";
 const debugApi = "/api/json";
 

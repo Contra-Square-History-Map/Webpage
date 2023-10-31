@@ -173,9 +173,7 @@ class ReleaseSummary extends ConsumerWidget {
             child: IconButton(
               icon: const Icon(Icons.close),
               onPressed: () {
-                ref
-                    .read(selectedReleaseProvider.notifier)
-                    .setActiveRelease(null);
+                ref.read(selectedReleaseProvider.notifier).state = null;
               },
             ),
           ),

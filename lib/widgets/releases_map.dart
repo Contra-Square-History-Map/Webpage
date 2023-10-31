@@ -36,26 +36,9 @@ class ReleasesMap extends ConsumerWidget {
         zoom: 4.5,
       ),
       markers: markers,
-      onMapCreated: (controller) {
-        ref.read(mapControllerProvider.notifier).state = controller;
-        // ref.listen(
-        //   selectedReleaseProvider,
-        //   (previous, next) {
-        //     controller.animateCamera(
-        //       CameraUpdate.newCameraPosition(
-        //         const CameraPosition(
-        //           target: LatLng(0, 0),
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // );
-      },
       onCameraMove: (cameraPos) {
         ref.read(mapZoomProvider.notifier).state = cameraPos.zoom;
-        //print(cameraPos);
       },
-      //onCameraIdle: ,
     );
   }
 }

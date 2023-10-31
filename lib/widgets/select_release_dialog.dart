@@ -29,9 +29,7 @@ class SelectReleaseDialog extends ConsumerWidget {
                 title: Text(release.title),
                 subtitle: Text(release.band),
                 onTap: () {
-                  ref
-                      .read(selectedReleaseProvider.notifier)
-                      .setActiveRelease(release.id);
+                  ref.read(selectedReleaseProvider.notifier).state = release.id;
                   Navigator.of(context).pop();
                 },
               );

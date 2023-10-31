@@ -12,9 +12,6 @@ import 'map_icon_provider.dart';
 import 'releases_provider.dart';
 import 'selected_release_provider.dart';
 
-final mapControllerProvider =
-    StateProvider<GoogleMapController?>((ref) => null);
-
 final mapZoomProvider = StateProvider<double>((ref) => 4.5);
 
 final mapTacksProvider =
@@ -74,9 +71,8 @@ final mapTacksProvider =
           icon: icon,
           onTap: () {
             if (recordings.length == 1) {
-              ref
-                  .read(selectedReleaseProvider.notifier)
-                  .setActiveRelease(recordings.first.id);
+              ref.read(selectedReleaseProvider.notifier).state =
+                  (recordings.first.id);
             } else {
               showDialog(
                 context: context,
@@ -96,9 +92,8 @@ final mapTacksProvider =
                             subtitle: Text(
                                 "${release.title} (${DateTime.fromMillisecondsSinceEpoch(release.releaseTime.toInt(), isUtc: true).year})"),
                             onTap: () {
-                              ref
-                                  .read(selectedReleaseProvider.notifier)
-                                  .setActiveRelease(release.id);
+                              ref.read(selectedReleaseProvider.notifier).state =
+                                  (release.id);
                               Navigator.of(context).pop();
                             },
                           );

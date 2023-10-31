@@ -9,8 +9,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../constants.dart';
-
 class _ReleaseSpot extends ScatterSpot {
   _ReleaseSpot(this.recording, super.x, super.y, {super.color});
 
@@ -146,12 +144,10 @@ class _ReleasesTimelineState extends ConsumerState<ReleasesTimeline> {
                     if (event is FlTapUpEvent) {
                       final sectionIndex = touchResponse.touchedSpot!.spotIndex;
                       setState(() {
-                        ref
-                            .read(selectedReleaseProvider.notifier)
-                            .setActiveRelease(
-                                (releasePoints[sectionIndex] as _ReleaseSpot)
-                                    .recording
-                                    .id);
+                        ref.read(selectedReleaseProvider.notifier).state =
+                            (releasePoints[sectionIndex] as _ReleaseSpot)
+                                .recording
+                                .id;
                       });
                     }
                   },

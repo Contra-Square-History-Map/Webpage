@@ -83,38 +83,51 @@ class _MainPageState extends ConsumerState<MainPage> {
 
     const releasesMap = ReleasesMap();
 
-    final stackChildren = (selectedRelease != null)
-        ? [
-            releasesMap,
-            FractionallySizedBox(
-              widthFactor: .4,
-              heightFactor: .9,
-              child: PointerInterceptor(
-                child: ReleaseSummary(id: selectedRelease),
-              ),
-            ),
-          ]
-        : [
-            releasesMap,
-          ];
+    final releaseSummary =
+        (selectedRelease != null) ? ReleaseSummary(id: selectedRelease) : null;
 
     return SelectionArea(
       child: Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          children: [
-            Expanded(
-              child: Stack(
-                alignment: const Alignment(.75, .5),
-                children: stackChildren,
-              ),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 250),
-              child: const ReleasesTimeline(),
-            ),
-          ],
-        ),
+        appBar: AppBar(title: Text(selectedRelease ?? "A Hand for the Band")),
+        body: LayoutBuilder(builder: (context, constraints) {
+          final stackChildren = (selectedRelease != null)
+              ? [
+                  releasesMap,
+                  FractionallySizedBox(
+                    heightFactor: .9,
+                    child: PointerInterceptor(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxWidth: min(550, .7 * constraints.maxWidth)),
+                        child: ReleaseSummary(id: selectedRelease),
+                      ),
+                    ),
+                  ),
+                ]
+              : [
+                  releasesMap,
+                ];
+
+          if (releaseSummary != null &&
+              (constraints.maxWidth < 780 || constraints.maxHeight < 800)) {
+            return releaseSummary;
+          } else {
+            return Column(
+              children: [
+                Expanded(
+                  child: Stack(
+                    alignment: const Alignment(.75, .5),
+                    children: stackChildren,
+                  ),
+                ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 250),
+                  child: const ReleasesTimeline(),
+                ),
+              ],
+            );
+          }
+        }),
         drawer: Drawer(
           width: min(400, MediaQuery.of(context).size.width - 20),
           child: PointerInterceptor(

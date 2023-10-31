@@ -74,9 +74,7 @@ class FilterMenu extends ConsumerWidget {
               ),
               onChanged: (newText) {
                 ref.read(releaseSearchTextProvider.notifier).state = newText;
-                ref
-                    .read(selectedReleaseProvider.notifier)
-                    .setActiveRelease(null);
+                ref.read(selectedReleaseProvider.notifier).state = null;
               },
             ),
             const SizedBox(

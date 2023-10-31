@@ -8,8 +8,7 @@ import '../providers/selected_release_provider.dart';
 /// Widget to select one release from a list of releases
 class SelectReleaseDialog extends ConsumerWidget {
   /// Constructor
-  const SelectReleaseDialog({Key? key, required this.releases})
-      : super(key: key);
+  const SelectReleaseDialog({super.key, required this.releases});
 
   final List<Recording> releases;
 

@@ -58,8 +58,7 @@ List<InlineSpan> linkText(String text) {
 
 class Comment extends StatelessWidget {
   const Comment(
-      {Key? key, required this.commentAuthor, required this.commentText})
-      : super(key: key);
+      {super.key, required this.commentAuthor, required this.commentText});
 
   final String commentAuthor;
   final String commentText;

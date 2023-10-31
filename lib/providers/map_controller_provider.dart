@@ -66,7 +66,7 @@ final mapTacksProvider =
             BitmapDescriptor.defaultMarker;
 
         return Marker(
-          markerId: MarkerId("${lat}_${long}"),
+          markerId: MarkerId("${lat}_$long"),
           position: LatLng(lat, long),
           icon: icon,
           onTap: () {

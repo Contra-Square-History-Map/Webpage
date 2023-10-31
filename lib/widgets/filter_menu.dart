@@ -1,13 +1,13 @@
-import 'package:contra_square_catalog/constants.dart';
-import 'package:contra_square_catalog/providers/instruments_provider.dart';
-import 'package:contra_square_catalog/providers/selected_release_provider.dart';
-import 'package:contra_square_catalog/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../constants.dart';
 import '../providers/filter_providers.dart';
+import '../providers/instruments_provider.dart';
+import '../providers/selected_release_provider.dart';
+import '../routes.dart';
 import 'welcome_dialog.dart';
 
 class FilterMenu extends ConsumerWidget {

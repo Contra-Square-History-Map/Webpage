@@ -1,8 +1,8 @@
-import 'package:contra_square_catalog/proto/recording_messages.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
+import '../proto/recording_messages.pb.dart';
 import '../providers/selected_release_provider.dart';
 
 /// Widget to select one release from a list of releases

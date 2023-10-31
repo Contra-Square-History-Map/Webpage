@@ -1,7 +1,8 @@
-import 'package:contra_square_catalog/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../constants.dart';
 
 class WelcomeDialog extends StatefulWidget {
   const WelcomeDialog({super.key});

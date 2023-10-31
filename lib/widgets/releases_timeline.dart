@@ -1,13 +1,14 @@
 import 'dart:collection';
 import 'dart:math';
 
-import 'package:contra_square_catalog/proto/recording_messages.pb.dart';
-import 'package:contra_square_catalog/providers/filter_providers.dart';
-import 'package:contra_square_catalog/providers/releases_provider.dart';
-import 'package:contra_square_catalog/providers/selected_release_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../proto/recording_messages.pb.dart';
+import '../providers/filter_providers.dart';
+import '../providers/releases_provider.dart';
+import '../providers/selected_release_provider.dart';
 
 class _ReleaseSpot extends ScatterSpot {
   _ReleaseSpot(this.recording, super.x, super.y, {super.color});

@@ -1,9 +1,10 @@
-import 'package:contra_square_catalog/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../constants.dart';
+
 final releaseSearchTextProvider = StateProvider<String>(
-      (ref) => "",
+  (ref) => "",
 );
 
 final releaseRangeProvider = StateProvider<RangeValues>(
@@ -18,8 +19,8 @@ final selectedInstrumentsProvider =
 );
 
 final selectedMusiciansProvider =
-StateNotifierProvider<SetNotifier<String>, Set<String>>(
-      (ref) {
+    StateNotifierProvider<SetNotifier<String>, Set<String>>(
+  (ref) {
     return SetNotifier<String>();
   },
 );

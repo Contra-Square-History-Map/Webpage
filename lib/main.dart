@@ -87,9 +87,11 @@ class _MainPageState extends ConsumerState<MainPage> {
         (selectedRelease != null) ? ReleaseSummary(id: selectedRelease) : null;
 
     return SelectionArea(
-      child: Scaffold(
-        appBar: AppBar(title: Text(selectedRelease ?? "A Hand for the Band")),
-        body: LayoutBuilder(builder: (context, constraints) {
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final screenIsSmall =
+              (constraints.maxWidth < 780 || constraints.maxHeight < 800);
+
           final stackChildren = (selectedRelease != null)
               ? [
                   releasesMap,
@@ -99,7 +101,7 @@ class _MainPageState extends ConsumerState<MainPage> {
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
                             maxWidth: min(550, .7 * constraints.maxWidth)),
-                        child: ReleaseSummary(id: selectedRelease),
+                        child: ReleaseSummaryCard(id: selectedRelease),
                       ),
                     ),
                   ),
@@ -108,36 +110,48 @@ class _MainPageState extends ConsumerState<MainPage> {
                   releasesMap,
                 ];
 
-          if (releaseSummary != null &&
-              (constraints.maxWidth < 780 || constraints.maxHeight < 800)) {
-            return releaseSummary;
-          } else {
-            return Column(
-              children: [
-                Expanded(
-                  child: Stack(
-                    alignment: const Alignment(.75, .5),
-                    children: stackChildren,
-                  ),
-                ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 250),
-                  child: const ReleasesTimeline(),
-                ),
-              ],
-            );
-          }
-        }),
-        drawer: Drawer(
-          width: min(400, MediaQuery.of(context).size.width - 20),
-          child: PointerInterceptor(
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-              child: FilterMenu(),
+          final body = (releaseSummary != null && screenIsSmall)
+              ? releaseSummary
+              : Column(
+                  children: [
+                    Expanded(
+                      child: Stack(
+                        alignment: const Alignment(.75, .5),
+                        children: stackChildren,
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 250),
+                      child: const ReleasesTimeline(),
+                    ),
+                  ],
+                );
+
+          final leadingButton = (releaseSummary != null && screenIsSmall)
+              ? IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () =>
+                      ref.read(selectedReleaseProvider.notifier).state = null,
+                )
+              : null;
+
+          return Scaffold(
+            appBar: AppBar(
+              leading: leadingButton,
             ),
-          ),
-        ),
-        drawerEnableOpenDragGesture: false,
+            body: body,
+            drawer: Drawer(
+              width: min(400, MediaQuery.of(context).size.width - 20),
+              child: PointerInterceptor(
+                child: const Padding(
+                  padding: EdgeInsets.all(12),
+                  child: FilterMenu(),
+                ),
+              ),
+            ),
+            drawerEnableOpenDragGesture: false,
+          );
+        },
       ),
     );
   }

@@ -1,12 +1,12 @@
-import 'package:contra_square_catalog/proto/recording_messages.pb.dart';
-import 'package:contra_square_catalog/providers/release_provider.dart';
-import 'package:contra_square_catalog/routes.dart';
-import 'package:contra_square_catalog/widgets/comment.dart';
-import 'package:contra_square_catalog/widgets/track_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../proto/recording_messages.pb.dart';
+import '../providers/release_provider.dart';
 import '../providers/selected_release_provider.dart';
+import '../routes.dart';
+import 'comment.dart';
+import 'track_player.dart';
 
 class ReleaseSummary extends ConsumerWidget {
   const ReleaseSummary({super.key, required this.id});
@@ -95,79 +95,91 @@ class ReleaseSummary extends ConsumerWidget {
           )
         ];
 
-    return Card(
-      child: Stack(
-        children: [
-          (releaseDetails == null)
-              ? ConstrainedBox(
-                  constraints: const BoxConstraints.expand(),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : SingleChildScrollView(
-                  controller: ScrollController(),
-                  child: SelectionArea(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
+    return (releaseDetails == null)
+        ? ConstrainedBox(
+            constraints: const BoxConstraints.expand(),
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : SingleChildScrollView(
+            controller: ScrollController(),
+            child: SelectionArea(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Text(
+                      releaseDetails.band,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text(
+                      "${releaseDetails.title}  (${DateTime.fromMillisecondsSinceEpoch(releaseDetails.releaseTime.toInt(), isUtc: true).year})",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(releaseDetails.location),
+                    RichText(
+                      text: TextSpan(
+                        text: "Released on:",
                         children: [
-                          Text(
-                            releaseDetails.band,
-                            style: Theme.of(context).textTheme.titleLarge,
+                          TextSpan(
+                            text: (releaseDetails.cassetteRelease)
+                                ? " Cassette"
+                                : "",
                           ),
-                          Text(
-                            "${releaseDetails.title}  (${DateTime.fromMillisecondsSinceEpoch(releaseDetails.releaseTime.toInt(), isUtc: true).year})",
-                            style: Theme.of(context).textTheme.titleMedium,
+                          TextSpan(
+                            text: (releaseDetails.lpRelease) ? " LP" : "",
                           ),
-                          Text(releaseDetails.location),
-                          RichText(
-                            text: TextSpan(
-                              text: "Released on:",
-                              children: [
-                                TextSpan(
-                                  text: (releaseDetails.cassetteRelease)
-                                      ? " Cassette"
-                                      : "",
-                                ),
-                                TextSpan(
-                                  text: (releaseDetails.lpRelease) ? " LP" : "",
-                                ),
-                                TextSpan(
-                                  text: (releaseDetails.cdRelease) ? " CD" : "",
-                                ),
-                              ],
-                            ),
+                          TextSpan(
+                            text: (releaseDetails.cdRelease) ? " CD" : "",
                           ),
-                          const Divider(),
-                          Text(
-                            "Musicians",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          ...contributionsList,
-                          const Divider(),
-                          Text(
-                            "Sample",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          playerWidget,
-                          const Divider(),
-                          Text(
-                            "Notes",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          ...commentsList,
-                          const Divider(),
-                          Text(
-                            "Images",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          imageWidget,
                         ],
                       ),
                     ),
-                  ),
+                    const Divider(),
+                    Text(
+                      "Musicians",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    ...contributionsList,
+                    const Divider(),
+                    Text(
+                      "Sample",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    playerWidget,
+                    const Divider(),
+                    Text(
+                      "Notes",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    ...commentsList,
+                    const Divider(),
+                    Text(
+                      "Images",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    imageWidget,
+                  ],
                 ),
+              ),
+            ),
+          );
+  }
+}
+
+class ReleaseSummaryCard extends ConsumerWidget {
+  const ReleaseSummaryCard({super.key, required this.id});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Card(
+      child: Stack(
+        fit: StackFit.passthrough,
+        children: [
+          ReleaseSummary(id: id),
           Align(
             alignment: Alignment.topRight,
             child: IconButton(

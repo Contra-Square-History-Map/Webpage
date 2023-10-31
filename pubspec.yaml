@@ -16,14 +16,14 @@ dependencies:
     sdk: flutter
   fixnum: ^1.0.1
   fl_chart: ^0.64.0
-  flutter_riverpod: ^2.4.4
+  flutter_riverpod: ^2.4.5
   google_maps_flutter: ^2.5.0
   http: ^1.1.0
   just_audio: ^0.9.35
   pointer_interceptor: ^0.9.3+6
   protobuf: ^3.1.0
   shared_preferences: ^2.2.2
-  url_launcher: ^6.1.14
+  url_launcher: ^6.2.1
 
 dev_dependencies:
   flutter_test:

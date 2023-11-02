@@ -18,7 +18,7 @@ final releasesProvider = FutureProvider<List<Recording>>(
       queryParameters["q"] = query;
     }
 
-    var url = Uri.http(host, debugApi + releases, queryParameters);
+    var url = Uri.https(host, debugApi + releases, queryParameters);
 
     if (kDebugMode) {
       print("Loading releases from $url");

@@ -8,7 +8,7 @@ import '../routes.dart';
 
 final instrumentsProvider = FutureProvider<Iterable<String>>(
   (ref) async {
-    final url = Uri.http(host, debugApi + instruments);
+    final url = Uri.https(host, debugApi + instruments);
     final response =
         await http.read(url, headers: {"Referrer-Policy": "no-referrer"});
 

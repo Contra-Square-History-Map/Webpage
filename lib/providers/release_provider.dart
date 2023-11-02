@@ -8,7 +8,7 @@ import '../routes.dart';
 
 final releaseProvider = FutureProvider.family<Recording, String>(
   (ref, id) {
-    var url = Uri.http(host, debugApi + release, {"id": id});
+    var url = Uri.https(host, debugApi + release, {"id": id});
     var response = http.read(url, headers: {
       "Referrer-Policy": "no-referrer",
       "Content-Type": "application/json"

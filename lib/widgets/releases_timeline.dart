@@ -32,6 +32,8 @@ class _ReleasesTimelineState extends ConsumerState<ReleasesTimeline> {
     final requiredInstruments = ref.watch(selectedInstrumentsProvider);
     final selectedRelease = ref.watch(selectedReleaseProvider);
 
+    final theme = Theme.of(context);
+
     final releasePoints = ref.watch(releasesProvider).when(
           data: (recordingList) {
             final points = List<ScatterSpot>.empty(growable: true);
@@ -121,17 +123,24 @@ class _ReleasesTimelineState extends ConsumerState<ReleasesTimeline> {
                   enabled: true,
                   touchTooltipData: ScatterTouchTooltipData(
                     fitInsideVertically: true,
-                    tooltipBgColor: Colors.blue[100],
+                    fitInsideHorizontally: true,
+                    tooltipBgColor: theme.colorScheme.background,
+                    tooltipBorder: BorderSide(
+                      color: theme.colorScheme.onBackground,
+                      width: 1,
+                    ),
+                    maxContentWidth: 300,
                     getTooltipItems: (touchedSpot) {
                       final releaseSpot = touchedSpot as _ReleaseSpot;
                       return ScatterTooltipItem(
-                        releaseSpot.recording.title,
-                        textStyle: Theme.of(context).textTheme.titleLarge,
+                        releaseSpot.recording.band,
+                        textStyle: theme.textTheme.titleLarge,
                         children: [
                           const TextSpan(text: "\n"),
                           TextSpan(
-                              text: releaseSpot.recording.band,
-                              style: Theme.of(context).textTheme.bodyLarge),
+                            text: releaseSpot.recording.title,
+                            style: theme.textTheme.titleMedium,
+                          ),
                         ],
                       );
                     },

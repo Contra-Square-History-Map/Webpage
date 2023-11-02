@@ -1,48 +1,56 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 class TrackPlayer extends StatefulWidget {
-  final AudioPlayer player = AudioPlayer();
+  final String trackSource;
 
-  TrackPlayer({super.key, required String trackSource}) {
-    player.setUrl(trackSource).then((value) => print(value));
-  }
+  const TrackPlayer({super.key, required this.trackSource});
 
   @override
   State<TrackPlayer> createState() {
     return _TrackPlayerState();
   }
-
 }
 
 class _TrackPlayerState extends State<TrackPlayer> {
+  Duration? duration;
   Duration? currentPosition;
+  final AudioPlayer player = AudioPlayer();
 
   @override
   void initState() {
-    print("Creating State");
-    widget.player.positionStream.listen(
-      (event) {
-        if (kDebugMode) {
-          print("Time: $event");
-        }
-        if (mounted) {
-          setState(
-            () {
-              currentPosition = event;
-            },
-          );
-        }
-      },
-    );
-    widget.player.playbackEventStream.listen(
-      (event) {
-        print("Playback: $event");
-      },
-    );
-
     super.initState();
+
+    player.setUrl(widget.trackSource).then((totalDuration) {
+      if (mounted) {
+        setState(() {
+          duration = totalDuration;
+        });
+      }
+
+      player.positionStream.listen(
+        (event) {
+          if (kDebugMode) {
+            print("Time: $event");
+          }
+          if (mounted) {
+            setState(
+              () {
+                currentPosition = event;
+              },
+            );
+          }
+        },
+      );
+      player.playbackEventStream.listen(
+        (event) {
+          print("Playback: $event");
+        },
+      );
+    });
   }
 
   @override
@@ -52,34 +60,48 @@ class _TrackPlayerState extends State<TrackPlayer> {
         IconButton(
           style: Theme.of(context).elevatedButtonTheme.style,
           icon: Icon(
-            widget.player.playing ? Icons.pause : Icons.play_arrow,
+            player.playing ? Icons.pause : Icons.play_arrow,
           ),
           onPressed: () {
-            if (widget.player.playing) {
-              widget.player.pause().then(
+            if (player.playing) {
+              player.pause().then(
                     (value) => setState(
                       () {
-                        print(widget.player.playing);
+                        if (kDebugMode) {
+                          print(player.playing);
+                        }
                       },
                     ),
                   );
             } else {
-              widget.player.play();
-              setState(
-                () {
-                  print(widget.player.playing);
-                },
-              );
+              player.play().then(
+                    (value) => setState(
+                      () {
+                        if (kDebugMode) {
+                          print(player.playing);
+                        }
+                      },
+                    ),
+                  );
             }
           },
         ),
         Expanded(
           child: Slider(
-            value: currentPosition?.inMilliseconds.toDouble() ?? 0,
+            value: min(currentPosition?.inMilliseconds.toDouble() ?? 0,
+                duration?.inMilliseconds.toDouble() ?? 0),
             min: 0,
-            max: widget.player.duration?.inMilliseconds.toDouble() ?? 1,
+            max: duration?.inMilliseconds.toDouble() ?? 1,
             onChanged: (value) {
-              widget.player.seek(Duration(milliseconds: value.toInt()));
+              player.seek(Duration(milliseconds: value.toInt())).then(
+                (_) {
+                  if (duration != null) {
+                    setState(() {
+                      currentPosition = Duration(milliseconds: value.toInt());
+                    });
+                  }
+                },
+              );
             },
           ),
         ),
@@ -87,14 +109,14 @@ class _TrackPlayerState extends State<TrackPlayer> {
           width: 20,
         ),
         Text(
-            "${(currentPosition?.inMinutes ?? 0).toString().padLeft(2, '0')}:${(currentPosition?.inSeconds ?? 0 / Duration.secondsPerMinute).toString().padLeft(2, '0')}/${(widget.player.duration?.inMinutes ?? 0).toString().padLeft(2, '0')}:${((widget.player.duration?.inSeconds ?? 0) % Duration.secondsPerMinute).toString().padLeft(2, '0')}")
+            "${(currentPosition?.inMinutes ?? 0).toString().padLeft(2, '0')}:${((currentPosition?.inSeconds ?? 0) % Duration.secondsPerMinute).toString().padLeft(2, '0')}/${(duration?.inMinutes ?? 0).toString().padLeft(2, '0')}:${((duration?.inSeconds ?? 0) % Duration.secondsPerMinute).toString().padLeft(2, '0')}")
       ],
     );
   }
 
   @override
   void dispose() {
-    widget.player.stop();
+    player.stop();
     super.dispose();
   }
 }

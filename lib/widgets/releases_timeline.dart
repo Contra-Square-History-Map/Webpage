@@ -11,7 +11,15 @@ import '../providers/releases_provider.dart';
 import '../providers/selected_release_provider.dart';
 
 class _ReleaseSpot extends ScatterSpot {
-  _ReleaseSpot(this.recording, super.x, super.y, {super.color});
+  _ReleaseSpot(this.recording, x, y, {required color})
+      : super(
+          x,
+          y,
+          dotPainter: FlDotCirclePainter(
+            radius: 6,
+            color: color,
+          ),
+        );
 
   final Recording recording;
 }
